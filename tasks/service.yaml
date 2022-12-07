@@ -1,0 +1,11 @@
+- name: copy containerd service file
+  copy: src=containerd.service dest=/usr/lib/systemd/system/containerd.service
+- name: copy dcoker service file
+  copy: src=docker.service dest=/usr/lib/systemd/system/docker.service
+- name: copy dcoker socket file
+  copy: src=docker.socket dest=/usr/lib/systemd/system/docker.socket
+
+- name: start docker socket
+  service: name=docker.socket state=started enabled=yes
+- name: start docker service
+  service: name=docker state=started enabled=yes

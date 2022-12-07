@@ -1,0 +1,9 @@
+- name: donwload docker-binary package
+  tags: download
+  get_url:
+    validate_certs: no
+    url: https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/stable/x86_64/docker-{{ docker_version }}.tgz
+    dest: "{{ role_path }}/files/docker-{{ docker_version }}.tgz"
+    mode: 0644
+    force: no
+  delegate_to: localhost

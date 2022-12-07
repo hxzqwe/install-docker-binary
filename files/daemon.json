@@ -1,0 +1,8 @@
+{
+  "registry-mirrors": ["https://f45tc4ux.mirror.aliyuncs.com"],
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "max-concurrent-downloads": 10,
+  "max-concurrent-uploads": 5,
+  "log-opts": { "max-size": "300m", "max-file": "2" },
+  "live-restore": true
+}
