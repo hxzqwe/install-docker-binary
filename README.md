@@ -2,8 +2,8 @@
 
 Supports the following Operating Systems:
 
-  -  CentOS 7
-  -  RedHat 7
+  -  CentOS 7+
+  -  RedHat 7+
   -  Ubuntu 16.04+
   -  Debian8+
 
@@ -11,7 +11,8 @@ Supports the following Operating Systems:
 
 | Variable         | Required | Default    | Comments          |
 | ---------------- | -------- | ---------- | ----------------- |
-| `docker_version` | No       | `19.03.15` | Docker CE version |
+| version          | Yes      | 19.03.15   | Docker CE version |
+| x86_64_sha256    | Yes      | 5504d190eef37355231325c176686d51ade6e0cabe2da526d561a38d8611506f | sha256 file hash |
 
 ## Example Playbooks
 

@@ -1,2 +1,2 @@
-docker_version: 19.03.15
-docker_binary_md5: 49c18c230234b7be5deef2cbaaf4057a
+version: 19.03.15
+x86_64_sha256: 5504d190eef37355231325c176686d51ade6e0cabe2da526d561a38d8611506f
