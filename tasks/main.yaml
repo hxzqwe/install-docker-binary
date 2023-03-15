@@ -1,5 +1,46 @@
-- include_tasks: download.yaml
-- include_tasks: group.yaml
-- include_tasks: unarchive.yaml
-- include_tasks: config.yaml
-- include_tasks: service.yaml
+- name: donwload docker-binary package
+  tags: download
+  get_url:
+    validate_certs: no
+    url: https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/stable/{{ ansible_architecture }}/docker-{{ version }}.tgz
+    dest: "{{ role_path }}/files/docker-{{ version }}-{{ ansible_architecture }}.tgz"
+    mode: 0644
+    force: no
+    checksum: sha256:{{ x86_64_sha256 }}
+  delegate_to: localhost
+  when: ansible_architecture == "x86_64"
+
+- name: create docker group
+  group: name=docker
+
+- name: unarchive docker package
+  #unarchive: src=docker-{{ docker_version }}.tgz dest=/usr/bin/ extra_opts="--strip-components=1" creates=/usr/bin/docker
+  unarchive: src=docker-{{ version }}-{{ ansible_architecture }}.tgz dest=/usr/bin/ extra_opts="--strip-components=1"
+
+- name: create /etc/docker dicectory
+  file: path=/etc/docker state=directory
+- name: copy dcoker daemon.json
+  copy: src=daemon.json dest=/etc/docker/daemon.json
+  notify: restart docker
+
+- name: create /etc/docker/certs.d dicectory
+  tags: ca
+  file: path=/etc/docker/certs.d state=directory
+- name: copy ca certificate
+  tags: ca
+  copy: src={{ item }} dest=/etc/docker/certs.d/
+  with_fileglob:
+    - 'ca/*'
+  notify: restart docker
+
+- name: copy containerd service file
+  copy: src=containerd.service dest=/usr/lib/systemd/system/containerd.service
+- name: copy dcoker service file
+  copy: src=docker.service dest=/usr/lib/systemd/system/docker.service
+- name: copy dcoker socket file
+  copy: src=docker.socket dest=/usr/lib/systemd/system/docker.socket
+
+- name: start docker socket
+  service: name=docker.socket state=started enabled=yes
+- name: start docker service
+  service: name=docker state=started enabled=yes

@@ -1,2 +1,0 @@
-- name: create docker group
-  group: name=docker
